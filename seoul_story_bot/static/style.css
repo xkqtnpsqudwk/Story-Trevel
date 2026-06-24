@@ -90,3 +90,9 @@ body{
   .hero h1{font-size:25px;}
   .place-name{font-size:20px;}
 }
+
+/* 언어 토글 */
+.hero{position:relative;}
+.lang-toggle{position:absolute;top:14px;right:16px;display:flex;gap:5px;}
+.lang-toggle button{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.45);border-radius:8px;padding:4px 11px;font-size:13px;cursor:pointer;}
+.lang-toggle button.on{background:#fff;color:#1F4E79;font-weight:700;border-color:#fff;}

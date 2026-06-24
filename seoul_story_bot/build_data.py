@@ -1,0 +1,143 @@
+# -*- coding: utf-8 -*-
+import json
+
+def L(ko, en):  # 언어 묶음
+    return {"ko": ko, "en": en}
+
+ui = {
+  "ko": {
+    "hero_title": """서울 스토리 동선""",
+    "hero_sub": """좋아하는 콘텐츠를 고르면, 서울 속 그 장소를 이야기로 이어 드려요.""",
+    "pick": """좋아하는 콘텐츠를 골라보세요""",
+    "back": """← 콘텐츠 다시 고르기""",
+    "prev": """← 이전""", "next": """다음 →""",
+    "stop_fmt": """{i} / {n} 지점""",
+    "lbl_story": """콘텐츠 × 장소 이야기""",
+    "lbl_place": """장소 이야기""",
+    "lbl_theme": """주변 테마 체험""",
+    "lbl_visit": """방문 정보""",
+    "map_open": """큰 지도로 열기 →""",
+    "ask_title": """이 콘텐츠·장소에 대해 물어보기""",
+    "ask_ph": """예: 조선 시대 왕은 하루 몇 끼를 먹었나요?""",
+    "ask_btn": """질문""",
+    "thinking": """답변을 생각하는 중…""",
+    "foot": """※ 장소 정보는 공개 자료로 확인했습니다. 촬영지 정보는 일부 미확정이며, 방문 조건(개방·예약·휴관)은 방문 전 확인하세요."""
+  },
+  "en": {
+    "hero_title": """Seoul Story Routes""",
+    "hero_sub": """Pick a show you love, and we'll connect its real places in Seoul through stories.""",
+    "pick": """Pick a show you love""",
+    "back": """← Choose another show""",
+    "prev": """← Prev""", "next": """Next →""",
+    "stop_fmt": """Stop {i} / {n}""",
+    "lbl_story": """Content × place story""",
+    "lbl_place": """About the place""",
+    "lbl_theme": """Nearby experiences""",
+    "lbl_visit": """Visit info""",
+    "map_open": """Open in Maps →""",
+    "ask_title": """Ask about this show or place""",
+    "ask_ph": """e.g. How many meals a day did the king eat?""",
+    "ask_btn": """Ask""",
+    "thinking": """Thinking…""",
+    "foot": """Place facts are from public sources. Some filming claims are unconfirmed; check visit conditions (hours/reservation/closures) before visiting."""
+  }
+}
+
+contents = [
+  {"content_id": "tyrant_chef",
+   "title": L("""폭군의 셰프""", """Bon Appétit, Your Majesty"""),
+   "summary": L("""미슐랭 3스타 셰프 연지영이 조선으로 타임슬립해, 절대 미각의 폭군 이헌을 만나 수라간에서 요리하는 판타지 로맨틱 코미디 (tvN, 2025).""",
+                """A Michelin 3-star chef, Yeon Ji-yeong, time-slips to Joseon and cooks in the royal kitchen for a tyrant king with an absolute palate. (tvN, 2025)""")},
+  {"content_id": "true_education",
+   "title": L("""참교육""", """Chamgyoyuk (True Education)"""),
+   "summary": L("""무너진 교권을 지키기 위해 창설된 ‘교권보호국’ 감독관 나화진의 이야기. 네이버 웹툰 원작 (넷플릭스, 2026).""",
+                """An inspector from the “Teachers' Rights Protection Bureau” confronts a broken school system. Based on a Naver webtoon. (Netflix, 2026)""")},
+]
+
+places = [
+  {"place_id": "ungyeong",
+   "name": L("""운경고택""", """Ungyeong Old House"""),
+   "area": L("""서울 종로구 인왕산로 7 (경복궁역 도보 약 10분, 사직동)""",
+             """7 Inwangsan-ro, Jongno-gu, Seoul (≈10 min walk from Gyeongbokgung Stn.)"""),
+   "map_query": "서울 종로구 인왕산로 7",
+   "place_story": L(
+     """인왕산과 사직단을 내려다보는 전통 서울식 한옥입니다. 조선시대 ‘도정궁’ 터로 전해지며, 그 가문은 선조의 생부 덕흥대원군(중종의 7남·서자)과 이어집니다. 광복 후 운경 이재형(제12대 국회의장)이 1953년부터 거주했고, 2019년부터 일반에 공개됐습니다. 사랑채와 안채 사이 연못을 둔 내정이 ‘차경’의 멋을 보여줍니다.""",
+     """A traditional Seoul-style hanok overlooking Mt. Inwangsan and the Sajikdan altar. It is said to stand on the former site of “Dojeonggung,” tied to Grand Prince Deokheung — King Seonjo's birth father (the 7th son of King Jungjong). After liberation, Lee Jae-hyung (12th Speaker of the National Assembly) lived here from 1953; it has been open to the public since 2019. A small pond in the inner court frames the mountain as “borrowed scenery.”""")},
+  {"place_id": "sojubang",
+   "name": L("""경복궁 소주방(수라간 권역)""", """Sojubang Royal Kitchen, Gyeongbokgung"""),
+   "area": L("""서울 종로구 사직로 161, 경복궁 내 (소주방 권역)""",
+             """Inside Gyeongbokgung (Sojubang area), Jongno-gu, Seoul"""),
+   "map_query": "경복궁",
+   "place_story": L(
+     """조선 왕의 수라(식사)를 마련하던 궁궐 부엌으로, 드라마 속 ‘수라간’의 실제 모델입니다. 내소주방(임금의 일상식)·외소주방(잔치·고사 음식)·생물방(다과·죽 등)으로 나뉘었습니다. 남자 전문 요리사 ‘대령숙수’가 일했고, 왕은 하루 다섯 번(영조실록) 식사했으며 저녁상은 반찬 12가지의 ‘12첩 반상’이었습니다. 1915년 헐렸다가 고문헌 고증으로 2011~2015년 복원됐습니다.""",
+     """The palace kitchen that prepared the Joseon king's meals — the real model for the drama's “suragan.” It had three parts: Naesojubang (everyday meals), Oesojubang (banquet and ritual food), and Saengmulbang (snacks and porridge). A male chef called “daeryeong-suksu” worked here; the king ate five times a day (per the Annals of King Yeongjo), and the dinner table was the famous “12-dish set.” Demolished in 1915, it was restored in 2011–2015 from historical records.""")},
+  {"place_id": "gyeonghoeru",
+   "name": L("""경복궁 경회루""", """Gyeonghoeru Pavilion, Gyeongbokgung"""),
+   "area": L("""서울 종로구 경복궁 내, 서쪽 연못 위 누각""",
+             """Pavilion on the pond, west side of Gyeongbokgung, Jongno-gu, Seoul"""),
+   "map_query": "경복궁 경회루",
+   "place_story": L(
+     """경복궁 서쪽 연못 위에 세운 2층 누각으로, 나라의 경사·외국 사신 접대·왕실 잔치 같은 공식 연회 장소였습니다. 태종 12년(1412) 크게 지었고 임진왜란 때 소실된 뒤 고종 4년(1867) 중건됐으며, 1985년 국보 제224호로 지정됐습니다. 2층 마루를 3단으로 높이를 달리해 지위에 따라 앉는 자리를 나눴습니다 — 연회의 위계를 건축에 담은 셈이죠.""",
+     """A two-story pavilion built on the pond on the west side of Gyeongbokgung, used for state celebrations, receptions for foreign envoys, and royal banquets. Greatly rebuilt in 1412 under King Taejong, burned during the Imjin War, and reconstructed in 1867 under King Gojong; designated National Treasure No. 224 in 1985. Its second floor is tiered in three levels so people sat by rank — the banquet's hierarchy built into the architecture.""")},
+  {"place_id": "jungang_hs",
+   "name": L("""서울 중앙고등학교""", """Jungang High School, Gyedong"""),
+   "area": L("""서울 종로구 계동 (북촌, 안국역 인근)""",
+             """Gyedong, Jongno-gu, Seoul (Bukchon, near Anguk Stn.)"""),
+   "map_query": "서울중앙고등학교",
+   "place_story": L(
+     """1917년 계동에 자리잡은 사립학교로, 본관·동관·서관이 각각 국가 사적(제281·282·283호)입니다. 1934년 본관 화재 후 근대건축가 박동진이 고딕풍 석조 건물로 재건했습니다. ‘겨울연가’·‘도깨비’·‘여신강림’·‘보건교사 안은영’ 등 수많은 드라마 촬영지로 유명합니다.""",
+     """A private school established in Gyedong in 1917; its main, east, and west halls are each National Historic Sites (Nos. 281, 282, 283). After a 1934 fire, the main hall was rebuilt in Gothic-style stone by modern architect Bak Dong-jin. It is famous as a filming site for many works — Winter Sonata, Goblin, True Beauty, and more.""")},
+]
+
+routes = [
+  {"route_id": "r_tyrant", "content_id": "tyrant_chef",
+   "title": L("""수라간 셰프의 하루""", """A Day of the Royal Chef"""),
+   "stops": [
+     {"place_id": "ungyeong", "order": 1,
+      "stop_type": L("""세계관 연결""", """World-setting link"""),
+      "visit": L("""사전 예약제 · 입장료 1만원 · 11~17시 · 월·화 휴관""",
+                 """Reservation required · ₩10,000 · 11:00–17:00 · closed Mon/Tue"""),
+      "story_text": L(
+        """이 한옥의 ‘터’에는 조선 왕실의 이야기가 깔려 있어요. 옛 ‘도정궁’이 있던 자리 — 선조 임금의 생부 덕흥대원군과 이어지는 왕실 가문의 땅이거든요. ‘폭군의 셰프’가 그린 조선 궁중의 세계를, 실제 왕실과 닿아 있는 이 땅 위에서 떠올려볼 수 있죠. (※이곳이 촬영지인지는 공식 확인되지 않았어요.)""",
+        """The ground beneath this hanok carries a Joseon royal story. This is the former site of “Dojeonggung,” tied to Grand Prince Deokheung — the birth father of King Seonjo. So you can picture the royal world of the drama on land once connected to the real royal family. (Whether it was filmed here isn't officially confirmed.)"""),
+      "theme_exp": L("""한복 대여 후 사직단·서촌 골목 산책, 서촌 한옥 전통찻집 차·다과""",
+                     """Rent a hanbok and walk Sajikdan and Seochon alleys, traditional tea and sweets at a Seochon teahouse""")},
+     {"place_id": "sojubang", "order": 2,
+      "stop_type": L("""세계관 원형""", """World-setting model"""),
+      "visit": L("""경복궁 입장 시 상시 관람 (‘수라간 시식공감’ 음식 체험은 비정기 행사)""",
+                 """Viewable anytime with palace entry (the “Suragan Tasting” program is seasonal)"""),
+      "story_text": L(
+        """드라마에서 연지영이 일하던 그 수라간 — 실제 모델이 바로 여기 경복궁 소주방이에요. 조선의 왕이 먹을 음식을 만들던 진짜 왕실 부엌이죠. 드라마 속 요리 경합은 상상이지만, 이 부엌에서 매일 임금의 수라가 차려졌다는 건 실제예요. 사라졌던 부엌이 100여 년 만에 복원돼, 지금 당신이 그 앞에 설 수 있게 됐어요.""",
+        """Remember the royal kitchen where Yeon Ji-yeong worked? Its real model is right here — the Sojubang of Gyeongbokgung, the kitchen that prepared meals for Joseon's kings. The cooking battles are fiction, but the daily royal meals made here were very real. Torn down a century ago, it was restored after more than 100 years — so you can stand before it today."""),
+      "theme_exp": L("""경복궁 인근 궁중음식·한정식 맛보기, (시즌) 수라간 시식공감, 한복 입고 경복궁 무료입장""",
+                     """Korean royal court cuisine nearby, (seasonal) Suragan Tasting program, hanbok for free palace admission""")},
+     {"place_id": "gyeonghoeru", "order": 3,
+      "stop_type": L("""세계관 원형""", """World-setting model"""),
+      "visit": L("""외부 상시 관람 / 2층 내부는 봄·가을 사전예약 특별관람""",
+                 """Exterior anytime; 2nd-floor interior by seasonal reservation (spring/autumn)"""),
+      "story_text": L(
+        """드라마 속 화려한 궁중 연회와 요리 경합 — 그런 잔치가 실제로 펼쳐지던 곳이 바로 여기 경회루예요. 왕이 외국 사신을 맞이하고 신하들과 큰 잔치를 베풀던 왕실 최고의 연회장이죠. 연못 위에 떠 있는 듯한 이 누각에 서면, 드라마가 그린 궁중 잔치의 무대를 진짜로 마주하게 돼요. (※촬영지는 아니에요.)""",
+        """The lavish court banquets in the drama — that kind of feast really took place here, at Gyeonghoeru, the royal family's grandest banquet hall, where the king welcomed foreign envoys. Standing beside this pavilion that seems to float on its pond, you face the real stage of those court feasts. (Not a filming site.)"""),
+      "theme_exp": L("""(시즌) 경회루 2층 특별관람, 경복궁 야간개장·별빛야행, 한복 사진""",
+                     """(Seasonal) 2nd-floor special tour, Gyeongbokgung night opening / Starlight Tour, hanbok photos""")},
+   ]},
+  {"route_id": "r_edu", "content_id": "true_education",
+   "title": L("""참교육 ‘진원고’ 동선""", """Chamgyoyuk: Jinwon High route"""),
+   "stops": [
+     {"place_id": "jungang_hs", "order": 1,
+      "stop_type": L("""실제 촬영지""", """Filming site"""),
+      "visit": L("""운영 중인 학교 — 평일 출입 제한, 외부·정문 관람 위주, 방문 전 확인""",
+                 """A working school — weekday entry restricted; view the exterior, check before visiting"""),
+      "story_text": L(
+        """넷플릭스 ‘참교육’ 속 ‘진원고등학교’, 그 촬영지가 바로 이 중앙고등학교예요(9~10화). 그런데 이 학교, 한국에선 모두가 아는 ‘드라마 성지’예요. ‘겨울연가’와 ‘도깨비’도 여기서 찍었거든요. 고딕풍 석조 교사 건물이 워낙 멋져서 100년 넘게 카메라가 찾아오는 곳이죠.""",
+        """“Jinwon High School” in the Netflix drama Chamgyoyuk was filmed right here at Jungang High (episodes 9–10). But this school is a famous “K-drama pilgrimage site” — Winter Sonata and Goblin were filmed here too. Its Gothic-style stone buildings are so striking that cameras have come for over a century."""),
+      "theme_exp": L("""북촌한옥마을·계동길 산책, ‘겨울연가’·‘도깨비’ 등 다른 드라마 성지 둘러보기""",
+                     """Stroll Bukchon Hanok Village and Gyedong-gil, visit other K-drama pilgrimage spots (Winter Sonata, Goblin)""")},
+   ]},
+]
+
+data = {"languages": ["ko", "en"], "ui": ui, "contents": contents, "places": places, "routes": routes}
+json.dump(data, open("data/contents.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+print("contents.json 생성:", "contents", len(contents), "places", len(places), "routes", len(routes))
+print("폭군의셰프 지점:", [s["place_id"] for s in routes[0]["stops"]])
+print("참교육 지점:", [s["place_id"] for s in routes[1]["stops"]])

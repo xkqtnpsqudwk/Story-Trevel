@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 # 2) (질문 응답 F5용) 로컬 모델 준비 — 요금 없음
 #    - https://ollama.com 에서 Ollama 설치 (설치하면 localhost:11434에 자동 실행)
-#    - 한국어 모델 받기:  ollama pull exaone3.5   (대안: qwen2.5, gemma2)
+#    - 한국어 모델 받기:  ollama pull exaone3.5:2.4b   (기본 모델 · 가벼움. 대안: qwen2.5)
 #    설치 안 해도 F1~F4 화면 흐름은 그대로 동작합니다.
 
 # 3) 서버 실행
