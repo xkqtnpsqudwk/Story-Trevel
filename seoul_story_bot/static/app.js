@@ -8,6 +8,18 @@ let stopIndex = 0;
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 function routeOpen(){return !document.getElementById("step-route").classList.contains("hidden");}
 
+// 사용자 친화 메시지 (언어별)
+const MSG={
+  cards_err:{ko:"콘텐츠를 불러오지 못했어요. 서버가 켜져 있는지 확인하고 새로고침해 주세요.",
+             en:"Couldn't load the contents. Check the server is running and refresh."},
+  route_err:{ko:"동선을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.",
+             en:"Couldn't load the route. Please try again."},
+  ask_err:{ko:"답변을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.",
+           en:"Couldn't get an answer. Please try again."},
+};
+const msg=(k)=>(MSG[k]&&MSG[k][lang])||MSG[k].ko;
+const spots=(n)=>lang==="ko"?`장소 ${n}곳`:`${n} ${n===1?"spot":"spots"}`;
+
 async function setLang(l){
   lang=l; localStorage.setItem("lang",l); document.documentElement.lang=l;
   await loadUI(); await loadContents();
@@ -35,15 +47,18 @@ async function loadContents(){
     contents.forEach(c=>{
       const div=document.createElement("div");
       div.className="card"; div.onclick=()=>selectContent(c.content_id);
-      div.innerHTML=`<h3>${esc(c.title)}</h3><p>${esc(c.summary)}</p>`;
+      const meta=(c.place_count!=null)?`<div class="meta">${esc(spots(c.place_count))}</div>`:"";
+      div.innerHTML=`<h3>${esc(c.title)}</h3><p>${esc(c.summary)}</p>${meta}`;
       box.appendChild(div);
     });
-  }catch(e){ box.innerHTML='<div class="loading">!</div>'; }
+  }catch(e){ box.innerHTML='<div class="loading">'+esc(msg("cards_err"))+'</div>'; }
 }
 
 async function selectContent(cid, keepIndex=0){
-  const res=await fetch(`/api/route/${cid}?lang=${lang}`);
-  if(!res.ok){ return; }
+  let res;
+  try{ res=await fetch(`/api/route/${cid}?lang=${lang}`); }
+  catch(e){ alert(msg("route_err")); return; }
+  if(!res.ok){ alert(msg("route_err")); return; }
   const route=await res.json();
   currentContentId=cid; stops=route.stops; stopIndex=Math.min(keepIndex, stops.length-1);
   document.getElementById("route-title").textContent=route.content_title;
@@ -66,7 +81,9 @@ function renderStop(){
   const s=stops[stopIndex];
   const isModel=(s.stop_type||"").indexOf("원형")>=0 || /model/i.test(s.stop_type);
   const mq=encodeURIComponent(s.map_query||s.name);
-  const mapEmbed=`https://www.google.com/maps?q=${mq}&z=16&hl=${lang}&output=embed`;
+  // 키 없는 표준 임베드(maps.google.com). www.google.com 형식은 간헐적으로 동의 페이지로
+  // 리다이렉트되어 빈 지도가 뜰 수 있어 이쪽을 사용. ie=UTF8로 한글 쿼리 안정화.
+  const mapEmbed=`https://maps.google.com/maps?q=${mq}&z=16&hl=${lang}&ie=UTF8&output=embed`;
   const mapBig=`https://www.google.com/maps/search/?api=1&query=${mq}`;
   const chips=(s.theme_exp||"").split(/[,·]/).map(t=>t.trim()).filter(Boolean)
     .map(t=>`<span class="chip">${esc(t)}</span>`).join("");
@@ -110,7 +127,7 @@ async function askQuestion(){
     const data=await (await fetch("/api/ask",{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({content_id:currentContentId,question:q,lang})})).json();
     out.className="answer"; out.textContent=data.answer;
-  }catch(e){ out.className="answer"; out.textContent="!"; }
+  }catch(e){ out.className="answer"; out.textContent=msg("ask_err"); }
 }
 
 (async function init(){ await loadUI(); await loadContents(); })();
