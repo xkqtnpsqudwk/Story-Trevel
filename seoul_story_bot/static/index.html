@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>서울 스토리 동선 추천 AI봇</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1>서울 스토리 동선</h1>
+      <p class="sub">좋아하는 콘텐츠를 고르면, 서울 속 그 장소를 이야기로 이어 드려요.</p>
+    </header>
+
+    <!-- ① 콘텐츠 선택 (F1) -->
+    <section id="step-contents">
+      <h2 class="section-title">좋아하는 콘텐츠를 골라보세요</h2>
+      <div id="content-list" class="cards"><div class="loading">불러오는 중…</div></div>
+    </section>
+
+    <!-- ②③④ 동선·해설·체험 (F2·F3·F4) -->
+    <section id="step-route" class="hidden">
+      <button class="back" onclick="resetToContents()">← 콘텐츠 다시 고르기</button>
+      <div class="route-head">
+        <h2 id="route-title"></h2>
+        <div id="steps" class="steps"></div>
+      </div>
+
+      <div id="stop-area"></div>
+
+      <div class="nav">
+        <button id="prev-btn" class="ghost" onclick="moveStop(-1)">← 이전</button>
+        <span id="stop-indicator"></span>
+        <button id="next-btn" class="ghost" onclick="moveStop(1)">다음 →</button>
+      </div>
+
+      <!-- ⑤ 질문 응답 (F5) -->
+      <div class="ask-box">
+        <h3>이 콘텐츠·장소에 대해 물어보기</h3>
+        <div class="ask-row">
+          <input id="question" type="text" placeholder="예: 조선 시대 왕은 하루 몇 끼를 먹었나요?"
+                 onkeydown="if(event.key==='Enter')askQuestion()" />
+          <button class="primary" onclick="askQuestion()">질문</button>
+        </div>
+        <div id="answer" class="answer"></div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      ※ 장소 정보는 공개 자료로 확인했습니다. 촬영지 정보는 일부 팬 자료 기반이며, 방문 조건(개방·예약·휴관)은 방문 전 확인하세요.
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
