@@ -96,3 +96,8 @@ body{
 .lang-toggle{position:absolute;top:14px;right:16px;display:flex;gap:5px;}
 .lang-toggle button{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.45);border-radius:8px;padding:4px 11px;font-size:13px;cursor:pointer;}
 .lang-toggle button.on{background:#fff;color:#1F4E79;font-weight:700;border-color:#fff;}
+
+/* 권역 줄 + 교차 안내 칩 */
+.area-line{color:var(--muted);font-size:13px;margin:2px 0 4px;}
+.chip.cross{cursor:pointer;background:#e7eef7;border:1px solid #cdd7e1;}
+.chip.cross:hover{background:#1F4E79;color:#fff;border-color:#1F4E79;}

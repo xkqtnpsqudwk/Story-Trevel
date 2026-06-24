@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>서울 스토리 동선 · Seoul Story Routes</title>
+  <title>이야기가 있는 여행 · Travel with Stories</title>
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
@@ -13,7 +13,7 @@
         <button id="lang-ko" onclick="setLang('ko')">한국어</button>
         <button id="lang-en" onclick="setLang('en')">EN</button>
       </div>
-      <h1 id="hero-title">서울 스토리 동선</h1>
+      <h1 id="hero-title">이야기가 있는 여행</h1>
       <p class="sub" id="hero-sub"></p>
     </header>
 
@@ -28,6 +28,7 @@
         <h2 id="route-title"></h2>
         <div id="steps" class="steps"></div>
       </div>
+      <div id="area-line" class="area-line"></div>
       <div id="stop-area"></div>
       <div class="nav">
         <button id="prev-btn" class="ghost" onclick="moveStop(-1)"></button>
