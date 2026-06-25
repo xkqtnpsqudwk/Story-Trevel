@@ -22,3 +22,7 @@ desktop.ini
 
 # 로그
 *.log
+
+# 런타임 생성 DB (서버 시작 시 contents.json + catalog.py에서 자동 생성)
+*.db
+*.sqlite3

@@ -8,47 +8,18 @@
 </head>
 <body>
   <div class="wrap">
+    <div class="lang-toggle">
+      <button id="lang-ko" onclick="setLang('ko')">한국어</button>
+      <button id="lang-en" onclick="setLang('en')">EN</button>
+    </div>
     <header class="hero">
-      <div class="lang-toggle">
-        <button id="lang-ko" onclick="setLang('ko')">한국어</button>
-        <button id="lang-en" onclick="setLang('en')">EN</button>
-      </div>
       <h1 id="hero-title">이야기가 있는 여행</h1>
       <p class="sub" id="hero-sub"></p>
     </header>
-
-    <section id="step-contents">
-      <h2 class="section-title" id="pick-title"></h2>
-      <div id="content-list" class="cards"><div class="loading">…</div></div>
-    </section>
-
-    <section id="step-route" class="hidden">
-      <button class="back" id="back-btn" onclick="resetToContents()"></button>
-      <div class="route-head">
-        <h2 id="route-title"></h2>
-        <div id="steps" class="steps"></div>
-      </div>
-      <div id="area-line" class="area-line"></div>
-      <div id="stop-area"></div>
-      <div class="nav">
-        <button id="prev-btn" class="ghost" onclick="moveStop(-1)"></button>
-        <span id="stop-indicator"></span>
-        <button id="next-btn" class="ghost" onclick="moveStop(1)"></button>
-      </div>
-
-      <div class="ask-box">
-        <h3 id="ask-title"></h3>
-        <div class="ask-row">
-          <input id="question" type="text" onkeydown="if(event.key==='Enter')askQuestion()" />
-          <button class="primary" id="ask-btn" onclick="askQuestion()"></button>
-        </div>
-        <div id="answer" class="answer"></div>
-      </div>
-    </section>
-
+    <nav id="crumbs" class="crumbs"></nav>
+    <main id="app"><div class="loading">…</div></main>
     <footer class="foot" id="foot"></footer>
   </div>
-
   <script src="/static/app.js"></script>
 </body>
 </html>
